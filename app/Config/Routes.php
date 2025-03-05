@@ -36,3 +36,5 @@ $routes->get('prodi/(:num)', 'Prodi::show/$1');
 $routes->post('prodi', 'Prodi::create');
 $routes->put('prodi/(:num)', 'Prodi::update/$1');
 $routes->delete('prodi/(:num)', 'Prodi::delete/$1');
+$routes->get('user', 'User::index');
+$routes->get('user/(:num)', 'User::show/$1');
