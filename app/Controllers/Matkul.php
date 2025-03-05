@@ -59,7 +59,7 @@ class Matkul extends BaseController{
             'status' => 200,
             'error' => null,
             'message' => [
-                'message' => 'Berhasil Mengubah Data!'
+                'success' => 'Berhasil Mengubah Data!'
             ]
         ];
         return $this->respond($response);
@@ -73,9 +73,8 @@ class Matkul extends BaseController{
             $response = [
                 'status' => 200,
                 'error' => null,
-                'data' => $data,
                 'message' => [
-                   'message' => 'Berhasil Menghapus Data!'
+                   'success' => 'Berhasil Menghapus Data!'
                 ]
             ];
             return $this->respondDeleted($response);

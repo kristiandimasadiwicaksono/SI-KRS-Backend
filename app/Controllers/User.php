@@ -27,5 +27,61 @@ class User extends BaseController{
             return $this->failNotFound("Data tidak ditemukan!");
         }
     }
+
+    public function create(){
+        $data = $this->request->getPost();
+
+        if(!$this->model->insert($data)){
+            return $this->fail($this->model->errors());
+        }
+
+        $response = [
+            'status' => 200,
+            'error' => null,
+            'message' => [
+                'success' => 'Berhasil Menambahkan Data'
+            ]
+        ];
+        return $this->respond($response);
+    }
+
+    public function update ($id_user = null){
+        $data = $this->request->getRawInput();
+
+        $isExist = $this->model->where('id_user', $id_user)->first();
+        if(!$isExist){
+            return $this->failNotFound("Data tidak ditemukan!");
+        }
+
+        if(!$this->model->where('id_user', $id_user)->set($data)->update()){
+            return $this->fail($this->model->errors());
+        }
+        $response = [
+            'status' => 200,
+            'error' => null,
+            'message' => [
+                'success' => 'Berhasil Mengubah Data!'
+            ]
+        ];
+        return $this->respond($response);
+    }
+
+    public function delete($id_user = null){
+        $data = $this->model->where('id_user', $id_user)->findAll();
+
+        if($data){
+            $this->model->delete($id_user);
+            $response = [
+                'status' => 200,
+                'error' => null,
+                'message' => [
+                    'success' => 'Berhasil Menghapus Data!'
+                ]
+            ];
+            return $this->respond($response);
+        } else {
+            return $this->failNotFound("Data tidak ditemukan!");
+        }
+    }
 }
 ?>
