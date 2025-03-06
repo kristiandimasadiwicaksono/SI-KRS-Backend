@@ -30,7 +30,12 @@ class Mahasiswa extends BaseController
 
     public function create(){
         $data = $this->request->getPost();
-        
+
+        $existing = $this->model->where('npm', $data['npm'])->first();
+        if($existing){
+            return $this->failNotFound("NPM sudah digunakan!");
+        }
+
         if(!$this->model->insert($data)){
             return $this->fail($this->model->errors());
         }
@@ -51,6 +56,13 @@ class Mahasiswa extends BaseController
         $isExist = $this->model->where('npm', $npm)->first();
         if(!$isExist){
             return $this->failNotFound("Data tidak ditemukan!");
+        }
+
+        if (isset($data['npm']) && $data['npm'] !== $npm) {
+            $existing = $this->model->where('npm', $data['npm'])->first();
+            if ($existing) {
+                return $this->fail("NPM sudah digunakan oleh mahasiswa lain!", 400);
+            }
         }
         
         if(!$this->model->where('npm', $npm)->set($data)->update()){
@@ -84,3 +96,4 @@ class Mahasiswa extends BaseController
         }
     }
 }
+?>

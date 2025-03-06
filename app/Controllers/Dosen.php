@@ -29,6 +29,7 @@ class Dosen extends BaseController{
 
     public function create(){
         $data = $this->request->getPost();
+        
         $validationRules = [
             'nip' => 'required|is_unique[dosen.nip]',
             'nama_dosen' => 'required'
@@ -62,6 +63,11 @@ class Dosen extends BaseController{
 
     public function update ($nip = null){
         $data = $this->request->getRawInput();
+
+        $isExist = $this->model->where('nip', $nip)->first();
+        if(!$isExist){
+            return $this->failNotFound("Data tidak ditemukan!");
+        }
 
         $validationRules = [
             'nip' => 'required',

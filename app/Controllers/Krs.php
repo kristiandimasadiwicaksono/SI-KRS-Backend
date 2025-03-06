@@ -30,6 +30,18 @@ class Krs extends BaseController{
     public function create(){
         $data = $this->request->getPost();
 
+        if (empty($data['npm']) || empty($data['id_matkul'])) {
+            return $this->fail("NPM dan ID Mata Kuliah wajib diisi!", 400);
+        }
+
+        $existing = $this->model->where('npm', $data['npm'])
+                                ->where('id_matkul', $data['id_matkul'])
+                                ->first();
+
+        if($existing){
+            return $this->fail("Mahasiswa dengan NPM ini sudah terdaftar di matakuliah yang sama!", 400);
+        }
+
         if(!$this->model->insert($data)){
             return $this->fail($this->model->errors());
         }
@@ -46,6 +58,19 @@ class Krs extends BaseController{
 
     public function update($id_krs = null){
         $data = $this->request->getRawInput();
+
+        if (empty($data)) {
+            return $this->fail("Data tidak boleh kosong!", 400);
+        }
+
+        $existing = $this->model->where('npm', $data['npm'])
+                                ->where('id_matkul', $data['id_matkul'])
+                                ->where('id_krs !=', $id_krs)
+                                ->first();
+
+        if($existing){
+            return $this->fail("Mahasiswa dengan NPM ini sudah terdaftar di matakuliah yang sama!", 400);
+        }
 
         $isExist = $this->model->where('id_krs', $id_krs)->first();
         if(!$isExist){
@@ -66,6 +91,7 @@ class Krs extends BaseController{
     }
 
     public function delete ($id_krs = null){
+
         $data = $this->model->where('id_krs', $id_krs)->findAll();
 
         if($data){

@@ -10,8 +10,10 @@ class KrsModel extends Model{
         'id_matkul',
     ];
     protected $useTimestamps = false;
-    protected $beforeInsert = ['cekReferensi', 'generateId'];
+    protected $beforeInsert = ['cekReferensi'];
     protected $afterInsert = ['cekReferensi'];
+    protected $beforeUpdate = ['cekReferensi'];
+    protected $afterUpdate = ['cekReferensi'];
 
     protected function cekReferensi($data){
         $db = \config\Database::connect();

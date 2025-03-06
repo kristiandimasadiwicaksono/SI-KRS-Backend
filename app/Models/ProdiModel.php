@@ -10,13 +10,12 @@ class ProdiModel extends Model{
     ];
 
     protected $validationRules = [
-        'nama_prodi' => 'required|is_unique[prodi.nama_prodi]'
+        'nama_prodi' => 'required'
     ];
 
     protected $validationMessages = [
         'nama_prodi' =>[
             'required' => 'Nama Prodi harus diisi',
-            'is_unique' => 'Nama Prodi sudah terdaftar'
         ]
     ];
 }

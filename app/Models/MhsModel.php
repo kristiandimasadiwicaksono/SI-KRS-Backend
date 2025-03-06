@@ -14,17 +14,24 @@ class MhsModel extends Model{
     protected $beforeInsert = ['cekReferensi'];
 
     protected $validationRules = [
-            'npm' => 'required|is_unique[mahasiswa.npm]',
-            'nama_mahasiswa' => 'required'
+            'npm' => 'required',
+            'nama_mahasiswa' => 'required',
+            'id_kelas' => 'required',
+            'id_prodi' => 'required'
     ];
 
     protected $validationMessages = [
         'npm' => [
             'required' => 'NPM harus diisi',
-            'is_unique' => 'NPM sudah digunakan',
         ],
         'nama_mahasiswa' => [
            'required' => 'Nama Mahasiswa harus diisi'
+        ],
+        'id_kelas' => [
+            'required' => 'ID Kelas harus diisi'
+        ],
+        'id_prodi' => [
+            'required' => 'ID Program Studi harus diisi'
         ]
     ];
 

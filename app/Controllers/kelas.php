@@ -30,9 +30,22 @@ class Kelas extends BaseController{
     public function create(){
         $data = $this->request->getPost();
 
-        if(!$this->model->insert($data)){
-            return $this->fail($this->model->errors());
+        $validationRules = [
+            'nama_kelas' => 'required|is_unique[kelas.nama_kelas]',
+        ];
+    
+        $validationMessages = [
+            'nama_kelas' => [
+                'required' => 'Nama Kelas harus diisi!',
+                'is_unique' => 'Nama Kelas sudah terdaftar!'
+            ]
+        ];
+
+        if (!$this->validate($validationRules, $validationMessages)) {
+            return $this->fail($this->validator->getErrors());
         }
+
+        $this->model->insert($data);
 
         $response = [
             'status' => 200,
@@ -52,9 +65,22 @@ class Kelas extends BaseController{
             return $this->failNotFound("Data tidak ditemukan!");
         }
 
-        if(!$this->model->where('id_kelas', $id_kelas)->set($data)->update()){
-            return $this->fail($this->model->errors());
+        $validationRules = [
+            'nama_kelas' => 'required'
+        ];
+    
+        $validationMessages = [
+            'nama_kelas' => [
+                'required' => 'Nama Kelas harus diisi!'
+            ]
+        ];
+    
+        if (!$this->validate($validationRules, $validationMessages)) {
+            return $this->fail($this->validator->getErrors());
         }
+
+        $this->model->update($id_kelas, $data);
+
         $response = [
             'status' => 200,
             'error' => null,
@@ -66,6 +92,7 @@ class Kelas extends BaseController{
     }
 
     public function delete ($id_kelas = null){
+        
         $data = $this->model->where('id_kelas', $id_kelas)->findAll();
 
         if($data){

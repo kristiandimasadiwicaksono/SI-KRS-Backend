@@ -52,6 +52,13 @@ class Matkul extends BaseController{
             return $this->failNotFound("Data tidak ditemukan!");
         }
 
+        if (isset($data['id_matkul']) && $data['id_matkul'] !== $id_matkul) {
+            $existing = $this->model->where('id_matkul', $data['id_matkul'])->first();
+            if ($existing) {
+                return $this->fail("NPM sudah digunakan oleh mahasiswa lain!", 400);
+            }
+        }
+
         if(!$this->model->where('id_matkul', $id_matkul)->set($data)->update()){
             return $this->fail($this->model->errors());
         }

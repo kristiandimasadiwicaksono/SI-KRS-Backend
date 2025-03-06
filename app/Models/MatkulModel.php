@@ -15,7 +15,7 @@ class MatkulModel extends Model{
     protected $afterInsert = ['cekReferensi'];
 
     protected $validationRules = [
-        'nama_matkul' => 'required|is_unique[matkul.nama_matkul]',
+        'nama_matkul' => 'required',
         'sks' => 'required',
         'semester' => 'required'
     ];
@@ -23,7 +23,6 @@ class MatkulModel extends Model{
     protected $validationMessages = [
         'nama_matkul' => [
             'required' => 'Nama Mata Kuliah harus diisi!',
-            'is_unique' => 'Mata Kuliah sudah terdaftar!'
         ],
         'sks' => [
             'required' => 'SKS harus diisi!'
