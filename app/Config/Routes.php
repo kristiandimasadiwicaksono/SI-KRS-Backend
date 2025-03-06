@@ -27,7 +27,7 @@ $routes->post('matkul', 'Matkul::create');
 $routes->put('matkul/(:num)', 'Matkul::update/$1');
 $routes->delete('matkul/(:num)', 'Matkul::delete/$1');
 $routes->get('prodi', 'Prodi::index');
-$routes->get('prodi/(:num)', 'Prodi::show/$1');
+$routes->get('prodi/(:segment)', 'Prodi::show/$1');
 $routes->post('prodi', 'Prodi::create');
 $routes->put('prodi/(:segment)', 'Prodi::update/$1');
 $routes->delete('prodi/(:segment)', 'Prodi::delete/$1');
