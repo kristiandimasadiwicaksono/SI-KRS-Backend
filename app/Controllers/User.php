@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\Model;
+use App\Models\UserModelV;
 use App\Models\UserModel;
 use CodeIgniter\API\ResponseTrait;
 
