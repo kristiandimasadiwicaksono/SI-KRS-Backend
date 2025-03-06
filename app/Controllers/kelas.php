@@ -34,13 +34,16 @@ class Kelas extends BaseController{
         $data = $this->request->getPost();
 
         $validationRules = [
-            'nama_kelas' => 'required|is_unique[kelas.nama_kelas]',
+            'nama_kelas' => [
+                'label' => 'Kelas',
+                'rules' => 'required|regex_match[/^[1-4][A-D]$/]'
+            ]
         ];
     
         $validationMessages = [
             'nama_kelas' => [
-                'required' => 'Nama Kelas harus diisi!',
-                'is_unique' => 'Nama Kelas sudah terdaftar!'
+                'required' => 'Kelas harus diisi!',
+                'regex_match' => 'Format kelas harus antara 1A - 4D'
             ]
         ];
 

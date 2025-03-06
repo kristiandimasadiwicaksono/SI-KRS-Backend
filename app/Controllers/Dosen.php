@@ -2,23 +2,26 @@
 namespace App\Controllers;
 
 use App\Models\DosenModel;
+use App\Models\DosenModelV;
 use CodeIgniter\API\ResponseTrait;
 
 class Dosen extends BaseController{
     use ResponseTrait;
     private $model;
+    private $viewModel;
 
     public function __construct() {
         $this->model = new DosenModel;
+        $this->viewModel = new DosenModelV;
     }
 
     public function index(){
-        $data = $this->model->findAll();
+        $data = $this->viewModel->findAll();
         return $this->respond($data,200);
     }
 
     public function show($nip = null){
-        $data = $this->model->where('nip',$nip)->findAll();
+        $data = $this->viewModel->where('nip',$nip)->findAll();
 
         if($data){
             return $this->respond($data,200);

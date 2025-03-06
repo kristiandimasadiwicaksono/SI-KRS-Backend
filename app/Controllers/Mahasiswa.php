@@ -17,7 +17,7 @@ class Mahasiswa extends BaseController
     }
 
     public function index(){
-        $data = $this->viewModel->getDataMhs();
+        $data = $this->viewModel->findAll();
         return $this->respond($data,200);
     }
 

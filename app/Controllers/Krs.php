@@ -16,12 +16,12 @@ class Krs extends BaseController{
     }
 
     public function index(){
-        $data = $this->viewModel->getDataKrs();
+        $data = $this->viewModel->findAll();
         return $this->respond($data, 200);
     }
 
     public function show($id_krs = null){
-        $data = $this->viewModel->where('id_krs', $id_krs)->getDataKrs();
+        $data = $this->viewModel->where('id_krs', $id_krs)->findAll();
 
         if($data){
             return $this->respond($data, 200);
