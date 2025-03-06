@@ -1,24 +1,27 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\ProdiModelV;
 use App\Models\ProdiModel;
 use CodeIgniter\API\ResponseTrait;
 
 class Prodi extends BaseController{
     use ResponseTrait;
     private $model;
+    private $viewModel;
 
     public function __construct(){
         $this->model = new ProdiModel;
+        $this->viewModel = new ProdiModelV;
     }
 
     public function index(){
-        $data = $this->model->findAll();
+        $data = $this->viewModel->findAll();
         return $this->respond($data, 200);
     }
 
     public function show($id_prodi = null){
-        $data = $this->model->where('id_prodi', $id_prodi)->findAll();
+        $data = $this->viewModel->where('id_prodi', $id_prodi)->findAll();
 
         if($data){
             return $this->respond($data, 200);

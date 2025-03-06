@@ -1,24 +1,27 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\KrsModelV;
 use App\Models\KrsModel;
 use CodeIgniter\API\ResponseTrait;
 
 class Krs extends BaseController{
     use ResponseTrait;
     private $model;
+    private $viewModel;
 
     public function __construct() {
         $this->model = new KrsModel;
+        $this->viewModel = new KrsModelV;
     }
 
     public function index(){
-        $data = $this->model->getDataKrs();
+        $data = $this->viewModel->getDataKrs();
         return $this->respond($data, 200);
     }
 
     public function show($id_krs = null){
-        $data = $this->model->where('id_krs', $id_krs)->getDataKrs();
+        $data = $this->viewModel->where('id_krs', $id_krs)->getDataKrs();
 
         if($data){
             return $this->respond($data, 200);

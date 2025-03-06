@@ -1,24 +1,27 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\KelasModelV;
 use App\Models\KelasModel;
 use CodeIgniter\API\ResponseTrait;
 
 class Kelas extends BaseController{
     use ResponseTrait;
     private $model;
+    private $viewModel;
 
     public function __construct(){
         $this->model = new KelasModel;
+        $this->viewModel = new KelasModelV;
     }
 
     public function index(){
-        $data = $this->model->findAll();
+        $data = $this->viewModel->findAll();
         return $this->respond($data, 200);
     }
 
     public function show($id_kelas = null){
-        $data = $this->model->where('id_kelas', $id_kelas)->findAll();
+        $data = $this->viewModel->where('id_kelas', $id_kelas)->findAll();
 
         if($data){
             return $this->respond($data,200);

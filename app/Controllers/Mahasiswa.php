@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\MhsModelV;
 use App\Models\MhsModel;
 use CodeIgniter\API\ResponseTrait;
 
@@ -8,18 +9,20 @@ class Mahasiswa extends BaseController
 {
     use ResponseTrait;
     private $model;
+    private $viewModel;
 
     public function __construct(){
         $this->model = new MhsModel;
+        $this->viewModel = new MhsModelV;
     }
 
     public function index(){
-        $data = $this->model->getDataMhs();
+        $data = $this->viewModel->getDataMhs();
         return $this->respond($data,200);
     }
 
     public function show($npm = null){
-        $data = $this->model->where('npm', $npm)->getDataMhs();
+        $data = $this->viewModel->where('npm', $npm)->getDataMhs();
 
         if($data){
             return $this->respond($data,200);

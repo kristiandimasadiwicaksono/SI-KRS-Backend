@@ -8,18 +8,20 @@ use CodeIgniter\API\ResponseTrait;
 class Matkul extends BaseController{
     use ResponseTrait;
     private $model;
+    private $viewModel;
 
     public function __construct(){
         $this->model = new MatkulModel;
+        $this->viewModel = new MatkulModelV;
     }
 
     public function index(){
-        $data = $this->model->getDataMatkul();
+        $data = $this->viewModel->getDataMatkul();
         return $this->respond($data, 200);
     }
 
     public function show($id_matkul = null){
-        $data = $this->model->where('id_matkul', $id_matkul)->getDataMatkul();
+        $data = $this->viewModel->where('id_matkul', $id_matkul)->getDataMatkul();
 
         if($data){
             return $this->respond($data, 200);
