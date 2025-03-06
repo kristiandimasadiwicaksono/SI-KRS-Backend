@@ -9,7 +9,7 @@ class MhsModel extends Model{
         'npm',
         'nama_mahasiswa',
         'id_kelas',
-        'id_prodi'
+        'kode_prodi'
     ];
     protected $beforeInsert = ['cekReferensi'];
 
@@ -17,7 +17,7 @@ class MhsModel extends Model{
             'npm' => 'required',
             'nama_mahasiswa' => 'required',
             'id_kelas' => 'required',
-            'id_prodi' => 'required'
+            'kode_prodi' => 'required'
     ];
 
     protected $validationMessages = [
@@ -30,7 +30,7 @@ class MhsModel extends Model{
         'id_kelas' => [
             'required' => 'ID Kelas harus diisi'
         ],
-        'id_prodi' => [
+        'kode_prodi' => [
             'required' => 'ID Program Studi harus diisi'
         ]
     ];
@@ -44,9 +44,9 @@ class MhsModel extends Model{
             throw new \Exception('Kelas dengan ID '.$data['data']['id_kelas'].' tidak ditemukan');
         }
         
-        $prodi = $db->table('prodi')->where('id_prodi', $data['data']['id_prodi']??null)->countAllResults();
+        $prodi = $db->table('prodi')->where('kode_prodi', $data['data']['kode_prodi']??null)->countAllResults();
         if($prodi == 0){
-            throw new \Exception('Program Studi dengan ID '.$data['data']['id_prodi'].' tidak ditemukan');
+            throw new \Exception('Program Studi dengan ID '.$data['data']['kode_prodi'].' tidak ditemukan');
         }
         return $data;
     }

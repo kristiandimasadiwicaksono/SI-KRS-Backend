@@ -4,15 +4,13 @@ use CodeIgniter\Model;
 
 class MatkulModel extends Model{
     protected $table = 'matkul';
-    protected $primaryKey = 'id_matkul';
+    protected $primaryKey = 'kode_matkul';
     protected $allowedFields = [
+        'kode_matkul',
         'nama_matkul',
-        'nip',
         'sks',
         'semester'
     ];
-    protected $beforeInsert = ['cekReferensi'];
-    protected $afterInsert = ['cekReferensi'];
 
     protected $validationRules = [
         'nama_matkul' => 'required',
@@ -31,21 +29,5 @@ class MatkulModel extends Model{
             'required' => 'Semester harus diisi!'
         ],
     ];
-
-    protected function cekReferensi($data){
-        $db = \config\Database::connect();
-
-        $dosen = $db->table('dosen')->where('nip', $data['data']['nip']??null)->countAllResults();
-        if($dosen == 0){
-            throw new \Exception('NIP tidak terdaftar!');
-        }
-        return $data;
-    }
-
-    public function getDataMatkul($id_matkul = null){
-        return $this->select('matkul.*, dosen.nama_dosen')
-                    ->join('dosen', 'dosen.nip = matkul.nip')
-                    ->findAll();
-    }
 }
 ?>

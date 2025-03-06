@@ -7,7 +7,7 @@ class KrsModel extends Model{
     protected $primaryKey = 'id_krs';
     protected $allowedFields = [
         'npm',
-        'id_matkul',
+        'kode_matkul',
     ];
     protected $useTimestamps = false;
     protected $beforeInsert = ['cekReferensi'];
@@ -23,9 +23,9 @@ class KrsModel extends Model{
             throw new \Exception('Mahasiswa dengan NPM '. $data['data']['npm'].' tidak ditemukan');
         }
 
-        $matkul = $db->table('matkul')->where('id_matkul', $data['data']['id_matkul']??null)->countAllResults();
+        $matkul = $db->table('matkul')->where('kode_matkul', $data['data']['kode_matkul']??null)->countAllResults();
         if($matkul == 0){
-            throw new \Exception('Mata Kuliah dengan ID '. $data['data']['id_matkul'].' tidak ditemukan');
+            throw new \Exception('Mata Kuliah dengan ID '. $data['data']['kode_matkul'].' tidak ditemukan');
         }
         return $data;
     }
@@ -33,7 +33,7 @@ class KrsModel extends Model{
     public function getDataKrs($id_krs = null){
         return $this->select('krs.*, mahasiswa.nama_mahasiswa, matkul.nama_matkul')
                     ->join('mahasiswa', 'mahasiswa.npm = krs.npm','left')
-                    ->join('matkul', 'matkul.id_matkul = krs.id_matkul','left')
+                    ->join('matkul', 'matkul.kode_matkul = krs.kode_matkul','left')
                     ->findAll();
     }
 }

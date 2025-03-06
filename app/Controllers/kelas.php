@@ -12,16 +12,15 @@ class Kelas extends BaseController{
 
     public function __construct(){
         $this->model = new KelasModel;
-        $this->viewModel = new KelasModelV;
     }
 
     public function index(){
-        $data = $this->viewModel->findAll();
+        $data = $this->model->findAll();
         return $this->respond($data, 200);
     }
 
     public function show($id_kelas = null){
-        $data = $this->viewModel->where('id_kelas', $id_kelas)->findAll();
+        $data = $this->model->where('id_kelas', $id_kelas)->findAll();
 
         if($data){
             return $this->respond($data,200);
@@ -32,6 +31,11 @@ class Kelas extends BaseController{
 
     public function create(){
         $data = $this->request->getPost();
+
+        $existing = $this->model->where('nama_kelas', $data['nama_kelas'])->first();
+        if($existing){
+            return $this->failNotFound("Kelas sudah terdaftar!");
+        }
 
         $validationRules = [
             'nama_kelas' => [

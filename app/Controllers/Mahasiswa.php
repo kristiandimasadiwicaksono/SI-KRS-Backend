@@ -22,7 +22,7 @@ class Mahasiswa extends BaseController
     }
 
     public function show($npm = null){
-        $data = $this->viewModel->where('npm', $npm)->getDataMhs();
+        $data = $this->viewModel->where('npm', $npm)->findAll();
 
         if($data){
             return $this->respond($data,200);
@@ -33,12 +33,12 @@ class Mahasiswa extends BaseController
 
     public function create(){
         $data = $this->request->getPost();
-
+        
         $existing = $this->model->where('npm', $data['npm'])->first();
         if($existing){
-            return $this->failNotFound("NPM sudah digunakan!");
+            return $this->failNotFound("NPM sudah terdaftar!");
         }
-
+        
         if(!$this->model->insert($data)){
             return $this->fail($this->model->errors());
         }

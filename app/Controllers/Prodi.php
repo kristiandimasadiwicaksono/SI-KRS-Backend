@@ -1,27 +1,24 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\ProdiModelV;
 use App\Models\ProdiModel;
 use CodeIgniter\API\ResponseTrait;
 
 class Prodi extends BaseController{
     use ResponseTrait;
     private $model;
-    private $viewModel;
 
     public function __construct(){
         $this->model = new ProdiModel;
-        $this->viewModel = new ProdiModelV;
     }
 
     public function index(){
-        $data = $this->viewModel->findAll();
+        $data = $this->model->findAll();
         return $this->respond($data, 200);
     }
 
-    public function show($id_prodi = null){
-        $data = $this->viewModel->where('id_prodi', $id_prodi)->findAll();
+    public function show($kode_prodi = null){
+        $data = $this->model->where('kode_prodi', $kode_prodi)->findAll();
 
         if($data){
             return $this->respond($data, 200);
@@ -33,7 +30,7 @@ class Prodi extends BaseController{
     public function create(){
         $data = $this->request->getPost();
 
-        $existing = $this->model->where('nama_prodi', $data['nama_prodi'])->first();
+        $existing = $this->model->where('kode_prodi', $data['kode_prodi'])->first();
         if($existing){
             return $this->failNotFound("Prodi ini sudah terdaftar!");
         }
@@ -52,26 +49,22 @@ class Prodi extends BaseController{
         return $this->respond($response);
     }
 
-    public function update ($id_prodi = null){
+    public function update ($kode_prodi = null){
         $data = $this->request->getRawInput();
 
-        $isExist = $this->model->where('id_prodi', $id_prodi)->first();
+        $isExist = $this->model->where('kode_prodi', $kode_prodi)->first();
         if(!$isExist){
             return $this->failNotFound("Data tidak ditemukan!");
         }
 
-        $nama_prodi = $isExist['nama_prodi'];
-
-        if (isset($data['nama_prodi']) && $data['nama_prodi'] !== $nama_prodi) {
-            $existing = $this->model->where('nama_prodi', $data['nama_prodi'])
-                                    ->where('id_prodi !=', $id_prodi)
-                                    ->first();
+        if (isset($data['kode_prodi']) && $data['kode_prodi'] !== $kode_prodi) {
+            $existing = $this->model->where('kode_prodi', $data['kode_prodi'])->first();
             if ($existing) {
-                return $this->fail("Nama Program Studi sudah digunakan!", 400);
+                return $this->fail("Kode Prodi sudah terdaftar!", 400);
             }
         }
 
-        if(!$this->model->where('id_prodi', $id_prodi)->set($data)->update()){
+        if(!$this->model->where('kode_prodi', $kode_prodi)->set($data)->update()){
             return $this->fail($this->model->errors());
         }
         $response = [
@@ -84,11 +77,12 @@ class Prodi extends BaseController{
         return $this->respond($response);
     }
 
-    public function delete($id_prodi = null){
-        $data = $this->model->where('id_prodi', $id_prodi)->findAll();
+    public function delete($kode_prodi = null){
+        $data = $this->model->where('kode_prodi', $kode_prodi)->findAll();
 
         if($data){
-            $this->model->delete($id_prodi);
+            $this->model->delete($kode_prodi);
+
             $response = [
                 'status' => 200,
                 'error' => null,

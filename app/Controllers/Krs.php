@@ -33,12 +33,12 @@ class Krs extends BaseController{
     public function create(){
         $data = $this->request->getPost();
 
-        if (empty($data['npm']) || empty($data['id_matkul'])) {
+        if (empty($data['npm']) || empty($data['kode_matkul'])) {
             return $this->fail("NPM dan ID Mata Kuliah wajib diisi!", 400);
         }
 
         $existing = $this->model->where('npm', $data['npm'])
-                                ->where('id_matkul', $data['id_matkul'])
+                                ->where('kode_matkul', $data['kode_matkul'])
                                 ->first();
 
         if($existing){
@@ -67,7 +67,7 @@ class Krs extends BaseController{
         }
 
         $existing = $this->model->where('npm', $data['npm'])
-                                ->where('id_matkul', $data['id_matkul'])
+                                ->where('kode_matkul', $data['kode_matkul'])
                                 ->where('id_krs !=', $id_krs)
                                 ->first();
 
