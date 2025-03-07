@@ -1,6 +1,6 @@
 # SI-KRS-Backend
 
-Sistem Informasi Kartu Rencana Studi (KRS) - Backend menggunakan CodeIgniter 4
+Sistem Manajemen Kartu Rencana Studi (KRS) Online - Backend menggunakan CodeIgniter 4
 
 ## 📌 Cara Clone Repository
 
