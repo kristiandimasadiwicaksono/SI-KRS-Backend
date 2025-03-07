@@ -21,7 +21,7 @@ class Krs extends BaseController{
     }
 
     public function show($id_krs = null){
-        $data = $this->viewModel->where('id_krs', $id_krs)->findAll();
+        $data = $this->viewModel->where('id_krs', $id_krs)->first();
 
         if($data){
             return $this->respond($data, 200);
