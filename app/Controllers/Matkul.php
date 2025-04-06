@@ -18,7 +18,7 @@ class Matkul extends BaseController{
     }
 
     public function show($kode_matkul = null){
-        $data = $this->model->where('kode_matkul', $kode_matkul)->getDataMatkul();
+        $data = $this->model->where('kode_matkul', $kode_matkul)->findAll();
 
         if($data){
             return $this->respond($data, 200);
