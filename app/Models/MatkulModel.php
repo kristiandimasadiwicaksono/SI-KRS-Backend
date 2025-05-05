@@ -4,16 +4,17 @@ use CodeIgniter\Model;
 
 class MatkulModel extends Model{
     protected $table = 'matkul';
-    protected $primaryKey = 'kode_matkul';
+    protected $primaryKey = 'id_matkul';
     protected $allowedFields = [
-        'kode_matkul',
         'nama_matkul',
+        'nip',
         'sks',
         'semester'
     ];
 
     protected $validationRules = [
         'nama_matkul' => 'required',
+        'nip' => 'required',
         'sks' => 'required',
         'semester' => 'required'
     ];
@@ -21,6 +22,9 @@ class MatkulModel extends Model{
     protected $validationMessages = [
         'nama_matkul' => [
             'required' => 'Nama Mata Kuliah harus diisi!',
+        ],
+        'nip' => [
+            'required' => 'NIP harus diisi!',
         ],
         'sks' => [
             'required' => 'SKS harus diisi!'

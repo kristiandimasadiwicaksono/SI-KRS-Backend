@@ -90,8 +90,9 @@ class Dosen extends BaseController{
             return $this->fail($this->validator->getErrors());
         }
     
-        $this->model->update($nip, $data);
-
+        if(!$this->model->update($nip,$data)){
+            return $this->fail($this->model->errors());
+        }
         $response = [
             'status' => 200,
             'error' => null,
