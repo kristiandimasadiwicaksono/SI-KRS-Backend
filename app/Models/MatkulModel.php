@@ -4,17 +4,17 @@ use CodeIgniter\Model;
 
 class MatkulModel extends Model{
     protected $table = 'matkul';
-    protected $primaryKey = 'id_matkul';
+    protected $primaryKey = 'kode_matkul';
     protected $allowedFields = [
+        'kode_matkul',
         'nama_matkul',
-        'nip',
         'sks',
         'semester'
     ];
 
     protected $validationRules = [
+        'kode_matkul' => 'required',
         'nama_matkul' => 'required',
-        'nip' => 'required',
         'sks' => 'required',
         'semester' => 'required'
     ];

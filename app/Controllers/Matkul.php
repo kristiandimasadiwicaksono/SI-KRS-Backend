@@ -17,8 +17,8 @@ class Matkul extends BaseController{
         return $this->respond($data, 200);
     }
 
-    public function show($id_matkul = null){
-        $data = $this->model->where('id_matkul', $id_matkul)->findAll();
+    public function show($kode_matkul = null){
+        $data = $this->model->where('kode_matkul', $kode_matkul)->findAll();
 
         if($data){
             return $this->respond($data, 200);
@@ -30,13 +30,12 @@ class Matkul extends BaseController{
     public function create(){
         $data = $this->request->getPost();
 
-        $existing = $this->model->where('nama_matkul', $data['nama_matkul'])->where('nip', $data['nip'])->first();
-        if($existing){
-            return $this->failNotFound("Mata Kuliah dengan NIP tersebut sudah terdaftar!");
+        if ($this->model->find($data['kode_matkul'])) {
+            return $this->fail("Kode Mata Kuliah {$data['kode_matkul']} sudah terdaftar!", 400);
         }
 
-        if(!$this->model->insert($data)){
-            return $this->fail($this->model->errors());
+        if (!$this->model->insert($data, false)) {
+            return $this->fail($this->model->errors(), 400);
         }
 
         $response = [
@@ -49,30 +48,22 @@ class Matkul extends BaseController{
             return $this->respond($response);
     }
 
-    public function update ($id_matkul = null){
+    public function update ($kode_matkul = null){
         $data = $this->request->getRawInput();
 
-        if(isset($data['nama_matkul']) && isset($data['nip'])){
-            $existing = $this->model->where('nama_matkul', $data['nama_matkul'])->where('nip', $data['nip'])->where('id_matkul !=', $id_matkul)->first();
-
-            if($existing){
-                return $this->failValidationErrors("Mata Kuliah dengan NIP tersebut sudah terdaftar!");
-            }
+        $existing = $this->model->where('kode_matkul', $data['kode_matkul'])
+                                ->where('kode_matkul !=', $kode_matkul)
+                                ->first();
+        if($existing){
+            return $this->fail("Kode Mata kuliah {$data['kode_matkul']} sudah terdaftar!", 400);
         }
-
-        $dosenModel = new \App\Models\DosenModelV();
-        $dosen = $dosenModel->where('nip', $data['nip'])->first();
-
-        if(!$dosen){
-            return $this->failValidationErrors("NIP tidak ditemukan!");
-        }
-
-        $isExist = $this->model->find($id_matkul);
+        
+        $isExist = $this->model->find($kode_matkul);
         if (!$isExist) {
             return $this->failNotFound("Data tidak ditemukan!");
         }
 
-        if(!$this->model->update($id_matkul, $data)){
+        if(!$this->model->update($kode_matkul, $data)){
             return $this->fail($this->model->errors());
         }
         $response = [
@@ -85,11 +76,11 @@ class Matkul extends BaseController{
         return $this->respond($response);
     }
 
-    public function delete ($id_matkul = null){
-        $data = $this->model->where('id_matkul', $id_matkul)->findAll();
+    public function delete ($kode_matkul = null){
+        $data = $this->model->where('kode_matkul', $kode_matkul)->findAll();
 
         if($data){
-            $this->model->delete($id_matkul);
+            $this->model->delete($kode_matkul);
             $response = [
                 'status' => 200,
                 'error' => null,
