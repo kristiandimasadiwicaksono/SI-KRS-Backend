@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\KelasModel;
+use App\Models\ProdiModel;
 use App\Models\MhsModelV;
 use App\Models\MhsModel;
 use CodeIgniter\API\ResponseTrait;
@@ -10,10 +12,14 @@ class Mahasiswa extends BaseController
     use ResponseTrait;
     private $model;
     private $viewModel;
+    private $kelasModel;
+    private $prodiModel;
 
     public function __construct(){
         $this->model = new MhsModel;
         $this->viewModel = new MhsModelV;
+        $this->kelasModel = new KelasModel;
+        $this->prodiModel = new ProdiModel;
     }
 
     public function index(){
@@ -38,9 +44,18 @@ class Mahasiswa extends BaseController
         if($existing){
             return $this->failNotFound("NPM sudah terdaftar!");
         }
-        
-        if(!$this->model->insert($data)){
-            return $this->fail($this->model->errors());
+
+        if (!$this->kelasModel->find($data['id_kelas'])) {
+            return $this->failNotFound("Kelas dengan ID {$data['id_kelas']} tidak ditemukan");
+        }
+
+        if (!$this->prodiModel->find($data['kode_prodi'])) {
+            return $this->failNotFound("Prodi dengan kode {$data['kode_prodi']} tidak ditemukan");
+        }
+
+        $inserted = $this->model->insert($data);
+        if ($inserted === false) {
+            return $this->fail($this->model->errors(), 400);
         }
 
         $response = [

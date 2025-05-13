@@ -11,7 +11,6 @@ class MhsModel extends Model{
         'id_kelas',
         'kode_prodi'
     ];
-    protected $beforeInsert = ['cekReferensi'];
 
     protected $validationRules = [
             'npm' => 'required',
@@ -34,22 +33,6 @@ class MhsModel extends Model{
             'required' => 'ID Program Studi harus diisi'
         ]
     ];
-
-
-    protected function cekReferensi ($data){
-        $db = \config\Database::connect();
-
-        $kelas = $db->table('kelas')->where('id_kelas', $data['data']['id_kelas']??null)->countAllResults();
-        if($kelas == 0){
-            throw new \Exception('Kelas dengan ID '.$data['data']['id_kelas'].' tidak ditemukan');
-        }
-        
-        $prodi = $db->table('prodi')->where('kode_prodi', $data['data']['kode_prodi']??null)->countAllResults();
-        if($prodi == 0){
-            throw new \Exception('Program Studi dengan ID '.$data['data']['kode_prodi'].' tidak ditemukan');
-        }
-        return $data;
-    }
 
     public function getDataMhs($npm = null){
         return $this->select('mahasiswa.*, kelas.nama_kelas, prodi.nama_prodi')
