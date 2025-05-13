@@ -35,8 +35,9 @@ class Prodi extends BaseController{
             return $this->failNotFound("Prodi ini sudah terdaftar!");
         }
 
-        if(!$this->model->insert($data)){
-            return $this->fail($this->model->errors());
+        $inserted = $this->model->insert($data);
+        if ($inserted === false) {
+            return $this->fail($this->model->errors(), 400);
         }
 
         $response = [
