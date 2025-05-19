@@ -62,7 +62,32 @@ class Krs extends BaseController {
             return $this->fail("Mahasiswa dengan NPM ini sudah terdaftar di matakuliah yang sama!", 400);
         }
 
-        // Gagal input
+        $db = \Config\Database::connect();
+
+        $builder = $db->table('krs');
+        $builder->selectSum('matkul.sks');
+        $builder->join('matkul', 'matkul.kode_matkul = krs.kode_matkul');
+        $builder->where('krs.npm', $data['npm']);
+        $query = $builder->get()->getRow();
+        $totalSks = $query->sks ?? 0;
+
+        $matkul = $db->table('matkul')
+                     ->select('sks') 
+                     ->where ('kode_matkul', $data['kode_matkul'])
+                     ->get()
+                     ->getRow();
+
+        if (!$matkul){
+            return $this->fail("Data matakuliah tidak ditemukan!", 404);
+        }
+
+        $sksBaru = $matkul->sks;
+
+        if (($totalSks + $sksBaru) > 20){
+            return $this->fail("Total SKS melebihi batas maksimal (20 SKS)!", 400);
+        }
+
+        // Menyimpan ke db
         if(!$this->model->insert($data)){
             return $this->fail($this->model->errors());
         }
@@ -85,6 +110,8 @@ class Krs extends BaseController {
     public function update($id_krs = null) {
         $data = $this->request->getRawInput();
 
+            log_message('debug', 'Data yang diterima untuk update: ' . json_encode($data));
+
         // Validasi kosong
         if (empty($data)) {
             return $this->fail("Data tidak boleh kosong!", 400);
@@ -98,6 +125,32 @@ class Krs extends BaseController {
 
         if($existing){
             return $this->fail("Mahasiswa dengan NPM ini sudah terdaftar di matakuliah yang sama!", 400);
+        }
+
+        $db = \Config\Database::connect();
+        
+        $builder = $db->table('krs');
+        $builder->selectSum('matkul.sks');
+        $builder->join('matkul', 'matkul.kode_matkul = krs.kode_matkul');
+        $builder->where('krs.npm', $data['npm']);
+        $builder->where('krs.id_krs !=', $id_krs);
+        $query = $builder->get()->getRow();
+        $totalSksSaatIni = $query->sks ?? 0;
+
+        $matkul = $db->table('matkul')
+                     ->select('sks') 
+                     ->where ('kode_matkul', $data['kode_matkul'])
+                     ->get()
+                     ->getRow();
+
+        if (!$matkul){
+            return $this->fail("Data matakuliah tidak ditemukan!", 404);
+        }
+
+        $sksBaru = $matkul->sks;
+
+        if (($totalSksSaatIni + $sksBaru) > 20){
+            return $this->fail("Total SKS melebihi batas maksimal (20 SKS)!", 400);
         }
 
         // Cek apakah data ada

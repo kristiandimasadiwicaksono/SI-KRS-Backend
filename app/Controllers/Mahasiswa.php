@@ -49,6 +49,11 @@ class Mahasiswa extends BaseController
             return $this->failNotFound("Kelas dengan ID {$data['id_kelas']} tidak ditemukan");
         }
 
+        $jumlahMahasiswa = $this->model->where('id_kelas', $data['id_kelas'])->countAllResults();
+        if ($jumlahMahasiswa > 24){
+            return $this->fail("Kelas sudah terisi penuh!", 400);
+        }
+
         if (!$this->prodiModel->find($data['kode_prodi'])) {
             return $this->failNotFound("Prodi dengan kode {$data['kode_prodi']} tidak ditemukan");
         }
@@ -76,6 +81,7 @@ class Mahasiswa extends BaseController
             return $this->failNotFound("Data tidak ditemukan!");
         }
 
+        
         if (isset($data['npm']) && $data['npm'] !== $npm) {
             $existing = $this->model->where('npm', $data['npm'])->first();
             if ($existing) {
@@ -83,6 +89,19 @@ class Mahasiswa extends BaseController
             }
         }
         
+        if (isset($data['id_kelas']) && $data['id_kelas'] != $isExist['id_kelas']) {
+            // Cek apakah kelas ada
+            if (!$this->kelasModel->find($data['id_kelas'])) {
+                return $this->failNotFound("Kelas dengan ID {$data['id_kelas']} tidak ditemukan");
+            }
+        }
+
+        $jumlahMahasiswa = $this->model->where('id_kelas', $data['id_kelas'])->countAllResults();
+
+        if ($jumlahMahasiswa > 24) {
+            return $this->fail("Kelas sudah terisi penuh!", 400);
+        }
+
         if(!$this->model->where('npm', $npm)->set($data)->update()){
             return $this->fail($this->model->errors());
         }

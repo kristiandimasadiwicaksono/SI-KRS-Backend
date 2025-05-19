@@ -8,7 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->resource('mahasiswa');
 $routes->resource('kelas');
-$routes->resource('krs'); //Mengambil fungsi index dari kelas krs
+$routes->resource('krs');
 $routes->resource('matkul');
 $routes->resource('prodi');
 
