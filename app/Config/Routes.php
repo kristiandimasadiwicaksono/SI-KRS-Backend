@@ -38,3 +38,9 @@ $routes->put('prodi/(:segment)', 'Prodi::update/$1');
 $routes->delete('prodi/(:segment)', 'Prodi::delete/$1');
 $routes->get('user', 'User::index');
 $routes->get('user/(:num)', 'User::show/$1');
+
+$routes->post('login', 'Auth::login');
+
+$routes->group('api', ['filter' => 'auth'], function ($routes) {
+    $routes->get('protected', 'ProtectedController::index');
+});

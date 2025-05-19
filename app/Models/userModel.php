@@ -7,8 +7,7 @@ class UserModel extends Model{
     protected $primaryKey = 'id_user';
     protected $allowedFields = [
         'username',
-        'password',
-        'status'
+        'password'
     ];
     
 }
