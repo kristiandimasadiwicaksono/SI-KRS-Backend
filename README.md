@@ -48,8 +48,33 @@ Secara default, server akan berjalan di `http://localhost:8080`.
 1. **Pastikan server berjalan** dengan perintah `php spark serve`
 2. **Buka Postman**
 3. **Buat request baru**
-   - **Method:** `GET`, `POST`, `PUT`, `DELETE`
-   - **URL:** `http://localhost:8080/api/nama-endpoint`
+   - **Kelas:**
+      - `GET` → `http://localhost:8080/kelas` / `http://localhost:8080/kelas/{id}`
+      - `POST` → `http://localhost:8080/kelas`
+      - `PUT` → `http://localhost:8080/kelas/{id}`
+      - `DELETE` → `http://localhost:8080/kelas/{id}`
+   - **Matkul:**
+      - `GET` → `http://localhost:8080/matkul` / `http://localhost:8080/matkul/{id}`
+      - `POST` → `http://localhost:8080/matkul`
+      - `PUT` → `http://localhost:8080/matkul/{id}`
+      - `DELETE` → `http://localhost:8080/matkul/{id}`
+   - **Prodi:**
+      - `GET` → `http://localhost:8080/prodi` / `http://localhost:8080/prodi/{id}`
+      - `POST` → `http://localhost:8080/prodi`
+      - `PUT` → `http://localhost:8080/prodi/{id}`
+      - `DELETE` → `http://localhost:8080/prodi/{id}`
+   - **Mahasiswa:**
+      - `GET` → `http://localhost:8080/mahasiswa` / `http://localhost:8080/mahasiswa/{id}`
+      - `POST` → `http://localhost:8080/mahasiswa`
+      - `PUT` → `http://localhost:8080/mahasiswa/{id}`
+      - `DELETE` → `http://localhost:8080/mahasiswa/{id}`
+   - **KRS:**
+      - `GET` → `http://localhost:8080/krs` / `http://localhost:8080/krs/{id}`
+      - `POST` → `http://localhost:8080/krs`
+      - `PUT` → `http://localhost:8080/krs/{id}`
+      - `DELETE` → `http://localhost:8080/krs/{id}`
+   - **User:**
+      - `GET` → `http://localhost:8080/user` / `http://localhost:8080/user/{id}`
 4. **Kirim request dan lihat response dari API**
 
 ---
