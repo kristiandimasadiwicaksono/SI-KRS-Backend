@@ -43,6 +43,11 @@ php spark serve
 ```
 Secara default, server akan berjalan di `http://localhost:8080`.
 
+## 📥 Import Database (SQL)
+Sebelum menjalankan backend ini, pastikan Anda sudah mengimpor struktur dan data database yang dibutuhkan. Kami menyediakan file SQL yang dapat diunduh melalui repository berikut:
+
+📦 Repository Database: [SI_KRS_Database](https://github.com/WindyAnggitaPutri/SI_KRS_Database.git)
+
 ## 📡 Menggunakan API di Postman
 
 1. **Pastikan server berjalan** dengan perintah `php spark serve`
